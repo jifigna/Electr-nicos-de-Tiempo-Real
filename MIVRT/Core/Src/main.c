@@ -18,7 +18,10 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+<<<<<<< HEAD
 #include "cmsis_os.h"
+=======
+>>>>>>> d10b0c47cdc4dacc730aea8f66109ccc3d35320e
 #include "usb_host.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -28,6 +31,7 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
+<<<<<<< HEAD
 #define LIS_READ 0x80 // bit de lectura en el primer byte
 #define WHOAMI_REG 0x0F
 #define WHOAMI_VAL 0x3F // firma del LIS3DSH
@@ -37,6 +41,9 @@
 #define CTRL_REG5   0x24
 #define CTRL_REG6   0x25
 #define OUT_X_L     0x28
+=======
+
+>>>>>>> d10b0c47cdc4dacc730aea8f66109ccc3d35320e
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -57,6 +64,7 @@ I2S_HandleTypeDef hi2s3;
 SPI_HandleTypeDef hspi1;
 
 /* USER CODE BEGIN PV */
+<<<<<<< HEAD
 volatile uint8_t who = 0;
 volatile uint8_t r4 = 0;
 volatile uint8_t r5 = 0;
@@ -64,6 +72,9 @@ volatile uint8_t r6 = 0;
 volatile uint8_t init_err = 1;
 volatile uint8_t raw[6];
 volatile int16_t ax, ay, az;
+=======
+
+>>>>>>> d10b0c47cdc4dacc730aea8f66109ccc3d35320e
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -80,10 +91,14 @@ void MX_USB_HOST_Process(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+<<<<<<< HEAD
 static void cs_low(void) { HAL_GPIO_WritePin( GPIOE, GPIO_PIN_3, GPIO_PIN_RESET);
 }
 static void cs_high(void) { HAL_GPIO_WritePin(GPIOE, GPIO_PIN_3, GPIO_PIN_SET);
 }
+=======
+
+>>>>>>> d10b0c47cdc4dacc730aea8f66109ccc3d35320e
 /* USER CODE END 0 */
 
 /**
@@ -122,6 +137,7 @@ int main(void)
 
 
   /* USER CODE BEGIN 2 */
+<<<<<<< HEAD
   static void cs_low(void)  { HAL_GPIO_WritePin(GPIOE, GPIO_PIN_3, GPIO_PIN_RESET); }
    static void cs_high(void) { HAL_GPIO_WritePin(GPIOE, GPIO_PIN_3, GPIO_PIN_SET); }
 
@@ -161,6 +177,9 @@ int main(void)
  	   lis_write(CTRL_REG6, 0x10);
  	   return 0;
     }
+=======
+
+>>>>>>> d10b0c47cdc4dacc730aea8f66109ccc3d35320e
   /* USER CODE END 2 */
 
 
