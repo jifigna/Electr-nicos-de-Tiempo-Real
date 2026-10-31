@@ -91,10 +91,16 @@ volatile uint8_t r6 = 0;
 volatile uint8_t init_err = 1;
 volatile uint8_t raw[6];
 volatile int16_t ax, ay, az;
+volatile float ax_mg, ay_mg, az_mg;
 volatile uint32_t c_sensor_max_us=0;
 volatile uint32_t c_proceso_max_us=0;
 volatile uint32_t c_seguridad_max_us=0;
 volatile uint32_t c_comms_max_us=0;
+
+volatile uint32_t sensor_periodo_us = 0;
+volatile uint32_t sensor_per_max_us = 0;
+volatile uint32_t sensor_per_min_us = 999999;
+volatile uint32_t sensor_jitter_us = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -142,6 +148,9 @@ void lis_write(uint8_t reg, uint8_t val)
     cs_high();
 }
 
+
+//PARTE B//
+
 // Devuelve 0 si el sensor responde y queda configurado; 1 si no.
 uint8_t lis_init(void)
 {
@@ -153,6 +162,42 @@ uint8_t lis_init(void)
     lis_write(CTRL_REG5, 0xC0);                 // ← faltaba: BW 50 Hz, ±2 g, sin self-test, 4 hilos
     lis_write(CTRL_REG6, 0x10);                 // ADD_INC = 1
     return 0;
+}
+
+static void leer_sensor(void)     // cada 10 ms
+{
+    lis_read(OUT_X_L, (uint8_t*)raw, 6);
+    ax = (int16_t)((raw[1] << 8) | raw[0]);
+    ay = (int16_t)((raw[3] << 8) | raw[2]);
+    az = (int16_t)((raw[5] << 8) | raw[4]);
+}
+
+static void convertir_mg(void)    // cada 20 ms
+{
+    ax_mg = ax * 0.06f;   //f para que l multiplicación se haga con 32 bits (en vez de double)
+    ay_mg = ay * 0.06f;
+    az_mg = az * 0.06f;
+}
+
+static void latido(void)          // cada 50 ms
+{
+    HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);   // LED verde
+}
+
+static void actividad_larga(void)     // tarea de 15 ms, CPU para sin hacer nada
+{
+    uint32_t t0 = HAL_GetTick();
+    while (HAL_GetTick() - t0 < 15) { }
+}
+
+
+void quemar_cpu_us(uint32_t us)
+{
+    uint32_t acc = 0, prev = DWT->CYCCNT;
+    while (acc < us * 168u) {
+        uint32_t now = DWT->CYCCNT, d = now - prev; prev = now;
+        if (d < 1680u) acc += d;
+    }
 }
 
 /* USER CODE END 0 */
@@ -265,7 +310,7 @@ int main(void)
 
   /* USER CODE END 3 */
 }
-
+}
 /**
   * @brief System Clock Configuration
   * @retval None
@@ -544,16 +589,36 @@ void Task_sensor(void *argument)
 {
   /* USER CODE BEGIN 5 */
   /* Infinite loop */
-  for(;;)
-  {
-	uint32_t t0=DWT->CYCCNT;
-	leer_sensor();
-	uint32_t c=(DWT->CYCCNT-t0)/168;
 
-	if (c>c_sensor_max_us) c_sensor_max_us=c;
+	  uint32_t t_ant = 0;
+	  uint32_t n = 0;
+	  uint32_t t_sig = osKernelGetTickCount();
 
-    osDelay(1);
-  }
+	  for(;;)
+	  {
+
+	    uint32_t ahora = DWT->CYCCNT;
+	    if (n >= 2) {
+	        sensor_periodo_us = (ahora - t_ant) / 168;
+	        if (sensor_periodo_us > sensor_per_max_us) sensor_per_max_us = sensor_periodo_us;
+	        if (sensor_periodo_us < sensor_per_min_us) sensor_per_min_us = sensor_periodo_us;
+	        sensor_jitter_us = sensor_per_max_us - sensor_per_min_us;
+	    }
+	    t_ant = ahora;
+	    n++;
+
+	    // lo que ya tenías
+	    uint32_t t0 = DWT->CYCCNT;
+	    leer_sensor();
+	    quemar_cpu_us(2000);                                // carga artificial de 2 ms
+	    uint32_t c = (DWT->CYCCNT - t0) / 168;
+	    if (c > c_sensor_max_us) c_sensor_max_us = c;
+
+	    //osDelay(10);
+	    t_sig+=10;
+	    osDelayUntil(t_sig);
+	  }
+	  /* USER CODE END 5 */
   /* USER CODE END 5 */
 }
 
