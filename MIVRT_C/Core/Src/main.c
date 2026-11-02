@@ -101,6 +101,11 @@ volatile uint32_t sensor_periodo_us = 0;
 volatile uint32_t sensor_per_max_us = 0;
 volatile uint32_t sensor_per_min_us = 999999;
 volatile uint32_t sensor_jitter_us = 0;
+
+//Para apartado 1.9
+volatile uint32_t sensor_R_ms = 0;        // tiempo de respuesta de Sensor
+volatile uint32_t sensor_R_max_ms = 0;    // el peor tiempo de respuesta medido
+volatile uint32_t sensor_perdidos = 0;    // plazos perdidos (R > 10 ms)
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -237,8 +242,8 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
    // Lee 'n' (<= 6) registros consecutivos a partir de 'reg'.
-  //__HAL_SPI_ENABLE(&hspi1);                     // enciende el SPI1 ya: SCK queda en reposo alto antes de bajar CS
-  //HAL_Delay(10);                                // da tiempo al sensor a arrancar
+  __HAL_SPI_ENABLE(&hspi1);                     // enciende el SPI1 ya: SCK queda en reposo alto antes de bajar CS
+  HAL_Delay(10);                                // da tiempo al sensor a arrancar
   cs_high();                                    // CS en reposo
   init_err = lis_init();                        // 0 = OK
   lis_read(WHOAMI_REG, (uint8_t*)&who, 1);      // debe dar 0x3F
@@ -288,7 +293,7 @@ int main(void)
   commsHandle = osThreadNew(Task_comms, NULL, &comms_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
-  /* add threads, ... */
+  //osThreadSetPriority(ProcesoHandle, osPriorityRealtime);   // Reto 1.9 caso (b) descomentar para poner Proceso por encima de Sensor
   /* USER CODE END RTOS_THREADS */
 
   /* USER CODE BEGIN RTOS_EVENTS */
@@ -307,9 +312,8 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-
+  }
   /* USER CODE END 3 */
-}
 }
 /**
   * @brief System Clock Configuration
@@ -596,6 +600,7 @@ void Task_sensor(void *argument)
 
 	  for(;;)
 	  {
+	    uint32_t t_act = t_sig;
 
 	    uint32_t ahora = DWT->CYCCNT;
 	    if (n >= 2) {
@@ -607,19 +612,24 @@ void Task_sensor(void *argument)
 	    t_ant = ahora;
 	    n++;
 
-	    // lo que ya tenías
+
 	    uint32_t t0 = DWT->CYCCNT;
 	    leer_sensor();
-	    quemar_cpu_us(2000);                                // carga artificial de 2 ms
+	    //quemar_cpu_us(2000);                                // carga artificial de 2 ms
 	    uint32_t c = (DWT->CYCCNT - t0) / 168;
 	    if (c > c_sensor_max_us) c_sensor_max_us = c;
+
+	    //Mido tiempo de respuesta maximo
+	    sensor_R_ms = osKernelGetTickCount() - t_act;
+	    if (sensor_R_ms > sensor_R_max_ms) sensor_R_max_ms = sensor_R_ms;
+	    if (sensor_R_ms > 10) sensor_perdidos++;
 
 	    //osDelay(10);
 	    t_sig+=10;
 	    osDelayUntil(t_sig);
 	  }
 	  /* USER CODE END 5 */
-  /* USER CODE END 5 */
+
 }
 
 /* USER CODE BEGIN Header_Task_proceso */
@@ -633,14 +643,19 @@ void Task_proceso(void *argument)
 {
   /* USER CODE BEGIN Task_proceso */
   /* Infinite loop */
+
+  uint32_t t_sig = osKernelGetTickCount();
   for(;;)
   {
 	  uint32_t t0=DWT->CYCCNT;
 	  convertir_mg();
+	  quemar_cpu_us(12000); // Apartado 1.9
 	  uint32_t c=(DWT->CYCCNT-t0)/168;
 
 	  if (c>c_proceso_max_us) c_proceso_max_us=c;
-      osDelay(10);
+      //osDelay(20);
+      t_sig += 20;
+      osDelayUntil(t_sig);
   }
   /* USER CODE END Task_proceso */
 }
@@ -656,6 +671,7 @@ void Task_seguridad(void *argument)
 {
   /* USER CODE BEGIN Task_seguridad */
   /* Infinite loop */
+  uint32_t t_sig = osKernelGetTickCount();
   for(;;)
   {
 	  uint32_t t0=DWT->CYCCNT;
@@ -663,7 +679,9 @@ void Task_seguridad(void *argument)
 	  uint32_t c=(DWT->CYCCNT-t0)/168;
 
 	  if (c>c_seguridad_max_us) c_seguridad_max_us=c;
-	  osDelay(10);
+	  //osDelay(50);
+	  t_sig += 50;
+	  osDelayUntil(t_sig);
 
   }
   /* USER CODE END Task_seguridad */
@@ -676,10 +694,12 @@ void Task_seguridad(void *argument)
 * @retval None
 */
 /* USER CODE END Header_Task_comms */
+
 void Task_comms(void *argument)
 {
   /* USER CODE BEGIN Task_comms */
   /* Infinite loop */
+  uint32_t t_sig = osKernelGetTickCount();
   for(;;)
   {
 
@@ -688,7 +708,9 @@ void Task_comms(void *argument)
 	  uint32_t c=(DWT->CYCCNT-t0)/168;
 
 	  if (c>c_comms_max_us) c_comms_max_us=c;
-	   osDelay(10);
+	   //osDelay(100);
+	   t_sig += 100;
+	   osDelayUntil(t_sig);
   }
   /* USER CODE END Task_comms */
 }
