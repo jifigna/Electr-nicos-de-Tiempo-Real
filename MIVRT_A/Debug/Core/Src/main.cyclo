@@ -1,0 +1,12 @@
+../Core/Src/main.c:79:13:cs_low	1
+../Core/Src/main.c:80:13:cs_high	1
+../Core/Src/main.c:83:6:lis_read	2
+../Core/Src/main.c:96:6:lis_write	1
+../Core/Src/main.c:108:9:lis_init	2
+../Core/Src/main.c:126:5:main	1
+../Core/Src/main.c:188:6:SystemClock_Config	3
+../Core/Src/main.c:234:13:MX_I2C1_Init	2
+../Core/Src/main.c:268:13:MX_I2S3_Init	2
+../Core/Src/main.c:302:13:MX_SPI1_Init	2
+../Core/Src/main.c:340:13:MX_GPIO_Init	1
+../Core/Src/main.c:455:6:Error_Handler	1
