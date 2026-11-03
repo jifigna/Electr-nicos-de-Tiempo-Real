@@ -43,7 +43,7 @@
 
 #define MARCO_MS     10   // un tic cada 10 ms
 #define N_MARCOS     10   // 100ms (principal) / 10ms (secundario) = 10 marcos
-#define ACTIVIDAD_LARGA  0
+#define ACTIVIDAD_LARGA  1
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -143,7 +143,7 @@ static void leer_sensor(void)     // cada 10 ms
 
 static void convertir_mg(void)    // cada 20 ms
 {
-    ax_mg = ax * 0.06f;   //f para que l multiplicación se haga con 32 bits (en vez de double)
+    ax_mg = ax * 0.06f;          //f para que l multiplicación se haga con 32 bits (en vez de double)
     ay_mg = ay * 0.06f;
     az_mg = az * 0.06f;
 }
@@ -196,11 +196,11 @@ int main(void)
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
 
-   // Lee 'n' (<= 6) registros consecutivos a partir de 'reg'.
-  //__HAL_SPI_ENABLE(&hspi1);                     // enciende el SPI1 ya: SCK queda en reposo alto antes de bajar CS
-  //HAL_Delay(10);                                // da tiempo al sensor a arrancar
+
+  __HAL_SPI_ENABLE(&hspi1);
+  HAL_Delay(10);
   cs_high();                                    // CS en reposo
-  init_err = lis_init();                        // 0 = OK
+  init_err = lis_init();
   lis_read(WHOAMI_REG, (uint8_t*)&who, 1);      // debe dar 0x3F
   lis_read(CTRL_REG4,  (uint8_t*)&r4, 1);       // debe dar 0x6F
   lis_read(CTRL_REG5,  (uint8_t*)&r5, 1);       // debe dar 0xC0
@@ -242,7 +242,6 @@ int main(void)
 	    primero = 0;
 
 	    // 3) Hacer lo que toca en este tic (cronometrando cada cosa)
-
 	    //Leer sensor
 	    uint32_t t0 = DWT->CYCCNT;
 	    leer_sensor();                                   // todos los tics (cada 10ms)

@@ -31,9 +31,9 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define LIS_READ 0x80 // bit de lectura en el primer byte
+#define LIS_READ 0x80             // bit de lectura en el primer byte
 #define WHOAMI_REG 0x0F
-#define WHOAMI_VAL 0x3F // firma del LIS3DSH
+#define WHOAMI_VAL 0x3F
 #define LIS_READ    0x80
 #define WHOAMI_REG  0x0F
 #define CTRL_REG4   0x20
@@ -151,18 +151,16 @@ int main(void)
   MX_I2C1_Init();
   MX_I2S3_Init();
   MX_SPI1_Init();
-  /* USER CODE BEGIN 2 */
 
-   // Lee 'n' (<= 6) registros consecutivos a partir de 'reg'.
-  //__HAL_SPI_ENABLE(&hspi1);                     // enciende el SPI1 ya: SCK queda en reposo alto antes de bajar CS
-  //HAL_Delay(10);                                // da tiempo al sensor a arrancar
+  /* USER CODE BEGIN 2 */
+  __HAL_SPI_ENABLE(&hspi1);                     // enciendo el SPI1, SCK queda en reposo alto antes de bajar CS
+  HAL_Delay(10);                                // da tiempo al sensor a arrancar
   cs_high();                                    // CS en reposo
-  init_err = lis_init();                        // 0 = OK
+  init_err = lis_init();                        // 0 si va bien
   lis_read(WHOAMI_REG, (uint8_t*)&who, 1);      // debe dar 0x3F
   lis_read(CTRL_REG4,  (uint8_t*)&r4, 1);       // debe dar 0x6F
   lis_read(CTRL_REG5,  (uint8_t*)&r5, 1);       // debe dar 0xC0
   lis_read(CTRL_REG6,  (uint8_t*)&r6, 1);       // debe dar 0x10
-
   /* USER CODE END 2 */
 
   /* Infinite loop */
