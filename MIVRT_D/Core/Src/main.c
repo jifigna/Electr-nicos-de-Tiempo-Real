@@ -201,10 +201,10 @@ static void leer_sensor(void)     // cada 10 ms
     az = (int16_t)((raw[5] << 8) | raw[4]);
 }
 
-static void convertir_mg(void)    // cada 20 ms
+static void convertir_mg(void)      // cada 20 ms
 {
 	taskENTER_CRITICAL();
-    ax_mg = ax * 0.06f;   //f para que l multiplicación se haga con 32 bits (en vez de double)
+    ax_mg = ax * 0.06f;
     ay_mg = ay * 0.06f;
     az_mg = az * 0.06f;
     taskEXIT_CRITICAL();

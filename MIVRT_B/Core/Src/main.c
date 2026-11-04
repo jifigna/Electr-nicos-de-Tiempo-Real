@@ -241,35 +241,33 @@ int main(void)
 	    t_ant = ahora;
 	    primero = 0;
 
-	    // 3) Hacer lo que toca en este tic (cronometrando cada cosa)
-	    //Leer sensor
+
 	    uint32_t t0 = DWT->CYCCNT;
-	    leer_sensor();                                   // todos los tics (cada 10ms)
+	    leer_sensor();                                   // todos los marcos (cada 10ms)
 	    C_sensor_us = (DWT->CYCCNT - t0) / 168;
 
 	    //convertir a mg
-	    if (k % 2 == 0) {                                // tics pares (cada 20ms)
+	    if (k % 2 == 0) {                                // marcos pares (cada 20ms)
 	        t0 = DWT->CYCCNT;
 	        convertir_mg();
 	        C_conv_us = (DWT->CYCCNT - t0) / 168;
 	    }
 
 	    //led verde
-	    if (k % 5 == 0) {                                // tics 0 y 5 (cada 50ms)
+	    if (k % 5 == 0) {                                // marcos 0 y 5 (cada 50ms)
 	        t0 = DWT->CYCCNT;
 	        latido();
 	        C_led_us = (DWT->CYCCNT - t0) / 168;
 	    }
 
 	#if ACTIVIDAD_LARGA
-	    if (k == 3) actividad_larga();                       // 15 ms en el tic 3
+	    if (k == 3) actividad_larga();                       // 15 ms en el marco 3
 	#endif
 
-	    // 4) Preparar el siguiente tic
-	    t_marco = t_marco + MARCO_MS;                                     // 10 ms más tarde
+
+	    t_marco = t_marco + MARCO_MS;
 	    if ((int32_t)(HAL_GetTick() - t_marco) > 0) overruns++;  // overruns
-	    k = (k + 1) % N_MARCOS;                                  // 0,1,…,9,0,1,…
-	  }
+	    k = (k + 1) % N_MARCOS;
 	  /* USER CODE END 3 */
 }
 
