@@ -868,7 +868,7 @@ void Task_proceso(void *argument)
 	  convertir_mg();
 	  calcular_angulos();
 	  calcular_vibraciones();
-	  comparar_fpu();
+	  // comparar_fpu(); SE COMENTA PARA NO INFLAR EL TIEMPO DE c_proceso_max
 	  //quemar_cpu_us(12000); // Apartado 1.9
 	  uint32_t c=(DWT->CYCCNT-t0)/168;
 
