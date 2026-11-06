@@ -1,0 +1,210 @@
+arm-none-eabi-size  MIVRT_E.elf 
+   text	   data	    bss	    dec	    hex	filename
+  29788	    104	  21128	  51020	   c74c	MIVRT_E.elf
+Finished building: default.size.stdout
+ 
+01:10:45 **** Incremental Build of configuration Debug for project MIVRT_E ****
+make -j8 all 
+arm-none-eabi-size  MIVRT_E.elf 
+   text	   data	    bss	    dec	    hex	filename
+  29788	    104	  21128	  51020	   c74c	MIVRT_E.elf
+Finished building: default.size.stdout
+ 
+01:11:43 **** Incremental Build of configuration Debug for project MIVRT_E ****
+make -j8 all 
+arm-none-eabi-size  MIVRT_E.elf 
+   text	   data	    bss	    dec	    hex	filename
+  29788	    104	  21128	  51020	   c74c	MIVRT_E.elf
+Finished building: default.size.stdout
+ 
+01:15:35 **** Incremental Build of configuration Debug for project MIVRT_E ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c:408:13: warning: 'MX_SPI1_Init' defined but not used [-Wunused-function]
+  408 | static void MX_SPI1_Init(void)
+      |             ^~~~~~~~~~~~
+../Core/Src/main.c:391:13: warning: 'MX_I2S3_Init' defined but not used [-Wunused-function]
+  391 | static void MX_I2S3_Init(void)
+      |             ^~~~~~~~~~~~
+arm-none-eabi-gcc -o "MIVRT_E.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Juan\Desktop\ALCALA\MUIE\Tiempo Real\Lab\Electr-nicos-de-Tiempo-Real\MIVRT_E\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="MIVRT_E.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: MIVRT_E.elf
+ 
+arm-none-eabi-size  MIVRT_E.elf 
+arm-none-eabi-objdump -h -S MIVRT_E.elf  > "MIVRT_E.list"
+   text	   data	    bss	    dec	    hex	filename
+  25884	    104	  21056	  47044	   b7c4	MIVRT_E.elf
+Finished building: default.size.stdout
+ 
+Finished building: MIVRT_E.list
+ 
+01:21:06 **** Incremental Build of configuration Debug for project MIVRT_E ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c:430:13: warning: 'MX_SPI1_Init' defined but not used [-Wunused-function]
+  430 | static void MX_SPI1_Init(void)
+      |             ^~~~~~~~~~~~
+../Core/Src/main.c:413:13: warning: 'MX_I2S3_Init' defined but not used [-Wunused-function]
+  413 | static void MX_I2S3_Init(void)
+      |             ^~~~~~~~~~~~
+arm-none-eabi-gcc -o "MIVRT_E.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Juan\Desktop\ALCALA\MUIE\Tiempo Real\Lab\Electr-nicos-de-Tiempo-Real\MIVRT_E\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="MIVRT_E.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: MIVRT_E.elf
+ 
+arm-none-eabi-size  MIVRT_E.elf 
+arm-none-eabi-objdump -h -S MIVRT_E.elf  > "MIVRT_E.list"
+   text	   data	    bss	    dec	    hex	filename
+  25868	    100	  21052	  47020	   b7ac	MIVRT_E.elf
+Finished building: default.size.stdout
+ 
+Finished building: MIVRT_E.list
+ 
+01:30:33 **** Incremental Build of configuration Debug for project MIVRT_E ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c:413:13: warning: 'MX_I2S3_Init' defined but not used [-Wunused-function]
+  413 | static void MX_I2S3_Init(void)
+      |             ^~~~~~~~~~~~
+arm-none-eabi-gcc -o "MIVRT_E.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Juan\Desktop\ALCALA\MUIE\Tiempo Real\Lab\Electr-nicos-de-Tiempo-Real\MIVRT_E\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="MIVRT_E.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: MIVRT_E.elf
+ 
+arm-none-eabi-size  MIVRT_E.elf 
+arm-none-eabi-objdump -h -S MIVRT_E.elf  > "MIVRT_E.list"
+   text	   data	    bss	    dec	    hex	filename
+  26396	    100	  21052	  47548	   b9bc	MIVRT_E.elf
+Finished building: default.size.stdout
+ 
+Finished building: MIVRT_E.list
+ 
+01:48:11 **** Build of configuration Debug for project MIVRT_E ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c:393:13: warning: 'MX_I2S3_Init' defined but not used [-Wunused-function]
+  393 | static void MX_I2S3_Init(void)
+      |             ^~~~~~~~~~~~
+../Core/Src/main.c:376:13: warning: 'MX_I2C1_Init' defined but not used [-Wunused-function]
+  376 | static void MX_I2C1_Init(void)
+      |             ^~~~~~~~~~~~
+arm-none-eabi-gcc -o "MIVRT_E.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Juan\Desktop\ALCALA\MUIE\Tiempo Real\Lab\Electr-nicos-de-Tiempo-Real\MIVRT_E\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="MIVRT_E.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: MIVRT_E.elf
+ 
+arm-none-eabi-size  MIVRT_E.elf 
+arm-none-eabi-objdump -h -S MIVRT_E.elf  > "MIVRT_E.list"
+   text	   data	    bss	    dec	    hex	filename
+  25436	    100	  20948	  46484	   b594	MIVRT_E.elf
+Finished building: default.size.stdout
+ 
+Finished building: MIVRT_E.list
+ 
+01:54:46 **** Incremental Build of configuration Debug for project MIVRT_E ****
+make -j8 all 
+arm-none-eabi-size  MIVRT_E.elf 
+   text	   data	    bss	    dec	    hex	filename
+  25436	    100	  20948	  46484	   b594	MIVRT_E.elf
+Finished building: default.size.stdout
+ 
+01:59:40 **** Incremental Build of configuration Debug for project MIVRT_E ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:323:16: warning: unused variable 'estado_kernel' [-Wunused-variable]
+  323 |     osStatus_t estado_kernel = osKernelGetState();
+      |                ^~~~~~~~~~~~~
+../Core/Src/main.c: At top level:
+../Core/Src/main.c:413:13: warning: 'MX_I2S3_Init' defined but not used [-Wunused-function]
+  413 | static void MX_I2S3_Init(void)
+      |             ^~~~~~~~~~~~
+../Core/Src/main.c:396:13: warning: 'MX_I2C1_Init' defined but not used [-Wunused-function]
+  396 | static void MX_I2C1_Init(void)
+      |             ^~~~~~~~~~~~
+arm-none-eabi-gcc -o "MIVRT_E.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Juan\Desktop\ALCALA\MUIE\Tiempo Real\Lab\Electr-nicos-de-Tiempo-Real\MIVRT_E\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="MIVRT_E.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: MIVRT_E.elf
+ 
+arm-none-eabi-size  MIVRT_E.elf 
+arm-none-eabi-objdump -h -S MIVRT_E.elf  > "MIVRT_E.list"
+   text	   data	    bss	    dec	    hex	filename
+  25564	    100	  20948	  46612	   b614	MIVRT_E.elf
+Finished building: default.size.stdout
+ 
+Finished building: MIVRT_E.list
+ 
+02:03:41 **** Incremental Build of configuration Debug for project MIVRT_E ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:323:16: warning: unused variable 'estado_kernel' [-Wunused-variable]
+  323 |     osStatus_t estado_kernel = osKernelGetState();
+      |                ^~~~~~~~~~~~~
+../Core/Src/main.c: At top level:
+../Core/Src/main.c:414:13: warning: 'MX_I2S3_Init' defined but not used [-Wunused-function]
+  414 | static void MX_I2S3_Init(void)
+      |             ^~~~~~~~~~~~
+../Core/Src/main.c:397:13: warning: 'MX_I2C1_Init' defined but not used [-Wunused-function]
+  397 | static void MX_I2C1_Init(void)
+      |             ^~~~~~~~~~~~
+arm-none-eabi-gcc -o "MIVRT_E.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Juan\Desktop\ALCALA\MUIE\Tiempo Real\Lab\Electr-nicos-de-Tiempo-Real\MIVRT_E\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="MIVRT_E.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: MIVRT_E.elf
+ 
+arm-none-eabi-size  MIVRT_E.elf 
+arm-none-eabi-objdump -h -S MIVRT_E.elf  > "MIVRT_E.list"
+   text	   data	    bss	    dec	    hex	filename
+  25564	    100	  20948	  46612	   b614	MIVRT_E.elf
+Finished building: default.size.stdout
+ 
+Finished building: MIVRT_E.list
+ 
+02:09:34 **** Incremental Build of configuration Debug for project MIVRT_E ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:323:16: warning: unused variable 'estado_kernel' [-Wunused-variable]
+  323 |     osStatus_t estado_kernel = osKernelGetState();
+      |                ^~~~~~~~~~~~~
+../Core/Src/main.c: At top level:
+../Core/Src/main.c:398:13: warning: 'MX_I2S3_Init' defined but not used [-Wunused-function]
+  398 | static void MX_I2S3_Init(void)
+      |             ^~~~~~~~~~~~
+../Core/Src/main.c:381:13: warning: 'MX_I2C1_Init' defined but not used [-Wunused-function]
+  381 | static void MX_I2C1_Init(void)
+      |             ^~~~~~~~~~~~
+arm-none-eabi-gcc -o "MIVRT_E.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Juan\Desktop\ALCALA\MUIE\Tiempo Real\Lab\Electr-nicos-de-Tiempo-Real\MIVRT_E\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="MIVRT_E.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: MIVRT_E.elf
+ 
+arm-none-eabi-size  MIVRT_E.elf 
+arm-none-eabi-objdump -h -S MIVRT_E.elf  > "MIVRT_E.list"
+   text	   data	    bss	    dec	    hex	filename
+  25516	    100	  20948	  46564	   b5e4	MIVRT_E.elf
+Finished building: default.size.stdout
+ 
+Finished building: MIVRT_E.list
+ 
+02:13:18 **** Incremental Build of configuration Debug for project MIVRT_E ****
+make -j8 all 
+arm-none-eabi-size  MIVRT_E.elf 
+   text	   data	    bss	    dec	    hex	filename
+  25516	    100	  20948	  46564	   b5e4	MIVRT_E.elf
+Finished building: default.size.stdout
+ 
+02:15:08 **** Incremental Build of configuration Debug for project MIVRT_E ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:323:16: warning: unused variable 'estado_kernel' [-Wunused-variable]
+  323 |     osStatus_t estado_kernel = osKernelGetState();
+      |                ^~~~~~~~~~~~~
+../Core/Src/main.c: At top level:
+../Core/Src/main.c:395:13: warning: 'MX_I2S3_Init' defined but not used [-Wunused-function]
+  395 | static void MX_I2S3_Init(void)
+      |             ^~~~~~~~~~~~
+../Core/Src/main.c:378:13: warning: 'MX_I2C1_Init' defined but not used [-Wunused-function]
+  378 | static void MX_I2C1_Init(void)
+      |             ^~~~~~~~~~~~
+arm-none-eabi-gcc -o "MIVRT_E.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Juan\Desktop\ALCALA\MUIE\Tiempo Real\Lab\Electr-nicos-de-Tiempo-Real\MIVRT_E\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="MIVRT_E.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: MIVRT_E.elf
+ 
+arm-none-eabi-size  MIVRT_E.elf 
+arm-none-eabi-objdump -h -S MIVRT_E.elf  > "MIVRT_E.list"
+   text	   data	    bss	    dec	    hex	filename
+  25516	    100	  20948	  46564	   b5e4	MIVRT_E.elf
+Finished building: default.size.stdout
+ 
+Finished building: MIVRT_E.list
+ 

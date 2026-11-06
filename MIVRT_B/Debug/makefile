@@ -34,34 +34,34 @@ $(wildcard ../makefile.init) \
 $(wildcard ../makefile.targets) \
 
 
-BUILD_ARTIFACT_NAME := MIVRT2_ciclico4
+BUILD_ARTIFACT_NAME := MIVRT_B
 BUILD_ARTIFACT_EXTENSION := elf
 BUILD_ARTIFACT_PREFIX :=
 BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ARTIFACT_EXTENSION),.$(BUILD_ARTIFACT_EXTENSION),)
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-MIVRT2_ciclico4.elf \
+MIVRT_B.elf \
 
 MAP_FILES += \
-MIVRT2_ciclico4.map \
+MIVRT_B.map \
 
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
-MIVRT2_ciclico4.list \
+MIVRT_B.list \
 
 
 # All Target
 all: main-build
 
 # Main-build Target
-main-build: MIVRT2_ciclico4.elf secondary-outputs
+main-build: MIVRT_B.elf secondary-outputs
 
 # Tool invocations
-MIVRT2_ciclico4.elf MIVRT2_ciclico4.map: $(OBJS) $(USER_OBJS) C:\Users\Sarah\Desktop\MUIE\SETR\github\Carpeta2\Electr-nicos-de-Tiempo-Real\MIVRT_B\STM32F407VGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "MIVRT2_ciclico4.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\Sarah\Desktop\MUIE\SETR\github\Carpeta2\Electr-nicos-de-Tiempo-Real\MIVRT_B\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="MIVRT2_ciclico4.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+MIVRT_B.elf MIVRT_B.map: $(OBJS) $(USER_OBJS) C:\Users\Juan\Desktop\ALCALA\MUIE\Tiempo\ Real\Lab\Electr-nicos-de-Tiempo-Real\MIVRT_B\STM32F407VGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "MIVRT_B.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\Juan\Desktop\ALCALA\MUIE\Tiempo Real\Lab\Electr-nicos-de-Tiempo-Real\MIVRT_B\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="MIVRT_B.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -70,14 +70,14 @@ default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-MIVRT2_ciclico4.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "MIVRT2_ciclico4.list"
+MIVRT_B.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "MIVRT_B.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) MIVRT2_ciclico4.elf MIVRT2_ciclico4.list MIVRT2_ciclico4.map default.size.stdout
+	-$(RM) MIVRT_B.elf MIVRT_B.list MIVRT_B.map default.size.stdout
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)

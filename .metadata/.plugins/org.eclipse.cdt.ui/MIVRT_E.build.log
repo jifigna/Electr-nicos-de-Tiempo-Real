@@ -1,0 +1,28 @@
+02:15:08 **** Incremental Build of configuration Debug for project MIVRT_E ****
+make -j8 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F407xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:323:16: warning: unused variable 'estado_kernel' [-Wunused-variable]
+  323 |     osStatus_t estado_kernel = osKernelGetState();
+      |                ^~~~~~~~~~~~~
+../Core/Src/main.c: At top level:
+../Core/Src/main.c:395:13: warning: 'MX_I2S3_Init' defined but not used [-Wunused-function]
+  395 | static void MX_I2S3_Init(void)
+      |             ^~~~~~~~~~~~
+../Core/Src/main.c:378:13: warning: 'MX_I2C1_Init' defined but not used [-Wunused-function]
+  378 | static void MX_I2C1_Init(void)
+      |             ^~~~~~~~~~~~
+arm-none-eabi-gcc -o "MIVRT_E.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Juan\Desktop\ALCALA\MUIE\Tiempo Real\Lab\Electr-nicos-de-Tiempo-Real\MIVRT_E\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="MIVRT_E.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: MIVRT_E.elf
+ 
+arm-none-eabi-size  MIVRT_E.elf 
+arm-none-eabi-objdump -h -S MIVRT_E.elf  > "MIVRT_E.list"
+   text	   data	    bss	    dec	    hex	filename
+  25516	    100	  20948	  46564	   b5e4	MIVRT_E.elf
+Finished building: default.size.stdout
+ 
+Finished building: MIVRT_E.list
+ 
+
+02:15:11 Build Finished. 0 errors, 3 warnings. (took 2s.889ms)
+

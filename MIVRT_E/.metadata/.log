@@ -22,3 +22,66 @@ COM5
 
 !ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-11-05 12:55:04.224
 !MESSAGE port: COM5
+!SESSION 2026-11-05 19:34:39.108 -----------------------------------------------
+eclipse.buildId=Version 2.1.0
+java.version=21.0.9
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=es_ES
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2026-11-05 19:35:27.063
+!MESSAGE Log4j2 initialized with config file C:\Users\Juan\Desktop\ALCALA\MUIE\Tiempo Real\Lab\Electr-nicos-de-Tiempo-Real\MIVRT_E\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2026-11-05 19:35:40.931
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-11-05 19:35:50.223
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM6
+COM5
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-11-05 19:35:50.224
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-11-05 19:35:50.226
+!MESSAGE port: COM5
+
+!ENTRY org.eclipse.cdt.core 1 0 2026-11-05 19:45:07.778
+!MESSAGE Indexed 'MIVRT_parteD' (38 sources, 153 headers) in 13,2 sec: 17.642 declarations; 90.464 references; 1 unresolved inclusions; 202 syntax errors; 241 unresolved names (0,22 %)
+
+!ENTRY org.eclipse.cdt.core 1 0 2026-11-05 19:45:17.503
+!MESSAGE Indexed 'MIVRT_parteC' (38 sources, 152 headers) in 9,55 sec: 17.115 declarations; 90.155 references; 1 unresolved inclusions; 202 syntax errors; 241 unresolved names (0,22 %)
+
+!ENTRY org.eclipse.cdt.core 1 0 2026-11-05 19:45:26.173
+!MESSAGE Indexed 'pruebainicial' (48 sources, 163 headers) in 8,66 sec: 18.715 declarations; 101.086 references; 1 unresolved inclusions; 202 syntax errors; 241 unresolved names (0,2 %)
+
+!ENTRY org.eclipse.cdt.core 1 0 2026-11-05 19:45:33.696
+!MESSAGE Indexed 'MIVRT2_ciclico4' (24 sources, 122 headers) in 7,52 sec: 12.399 declarations; 59.544 references; 1 unresolved inclusions; 93 syntax errors; 240 unresolved names (0,33 %)
+
+!ENTRY org.eclipse.cdt.core 1 0 2026-11-05 19:45:33.699
+!MESSAGE Indexed 'MIVRT3' (0 sources, 0 headers) in 0,001 sec: 0 declarations; 0 references; 0 unresolved inclusions; 0 syntax errors; 0 unresolved names (0 %)
+!SESSION 2026-11-05 19:50:23.495 -----------------------------------------------
+eclipse.buildId=Version 2.1.0
+java.version=21.0.9
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=es_ES
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -data C:\Users\Juan\Desktop\ALCALA\MUIE\Tiempo Real\Lab\Electr-nicos-de-Tiempo-Real\MIVRT_E
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2026-11-05 19:50:58.084
+!MESSAGE Log4j2 initialized with config file C:\Users\Juan\Desktop\ALCALA\MUIE\Tiempo Real\Lab\Electr-nicos-de-Tiempo-Real\MIVRT_E\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2026-11-05 19:51:14.417
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-11-05 19:51:23.227
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM6
+COM5
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-11-05 19:51:23.229
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-11-05 19:51:23.231
+!MESSAGE port: COM5
