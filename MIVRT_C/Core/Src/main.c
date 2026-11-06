@@ -41,6 +41,14 @@
 #define CTRL_REG5   0x24
 #define CTRL_REG6   0x25
 #define OUT_X_L     0x28
+
+// ---- SELECTOR DE MEDIDA (ver LEEME_SARAH_C.txt) ----
+// 1: Reto 1.7.3 - C medidos, sin cargas artificiales (version normal)
+// 2: Reto 1.8.1 - Sensor con osDelay(10) + carga de 2 ms
+// 3: Reto 1.8.2 - Sensor con osDelayUntil + carga de 2 ms
+// 4: Reto 1.9 caso (a) - prioridades RM, Proceso con C = 12 ms
+// 5: Reto 1.9 caso (b) - Proceso por encima de Sensor, C = 12 ms
+#define MEDIDA 5
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -293,7 +301,9 @@ int main(void)
   commsHandle = osThreadNew(Task_comms, NULL, &comms_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
-  //osThreadSetPriority(ProcesoHandle, osPriorityRealtime);   // Reto 1.9 caso (b) descomentar para poner Proceso por encima de Sensor
+#if MEDIDA == 5
+  osThreadSetPriority(ProcesoHandle, osPriorityRealtime);   // Reto 1.9 caso (b): Proceso por encima de Sensor
+#endif
   /* USER CODE END RTOS_THREADS */
 
   /* USER CODE BEGIN RTOS_EVENTS */
@@ -600,6 +610,9 @@ void Task_sensor(void *argument)
 
 	  for(;;)
 	  {
+#if MEDIDA == 2
+	    t_sig = osKernelGetTickCount();   // con osDelay no hay instante teorico: se mide R desde el despertar
+#endif
 	    uint32_t t_act = t_sig;
 
 	    uint32_t ahora = DWT->CYCCNT;
@@ -615,7 +628,9 @@ void Task_sensor(void *argument)
 
 	    uint32_t t0 = DWT->CYCCNT;
 	    leer_sensor();
-	    //quemar_cpu_us(2000);                                // carga artificial de 2 ms
+#if (MEDIDA == 2) || (MEDIDA == 3)
+	    quemar_cpu_us(2000);                                  // Reto 1.8: carga artificial de 2 ms
+#endif
 	    uint32_t c = (DWT->CYCCNT - t0) / 168;
 	    if (c > c_sensor_max_us) c_sensor_max_us = c;
 
@@ -624,9 +639,12 @@ void Task_sensor(void *argument)
 	    if (sensor_R_ms > sensor_R_max_ms) sensor_R_max_ms = sensor_R_ms;
 	    if (sensor_R_ms > 10) sensor_perdidos++;
 
-	    //osDelay(10);
+#if MEDIDA == 2
+	    osDelay(10);                      // version ingenua (Listado 1.3)
+#else
 	    t_sig+=10;
-	    osDelayUntil(t_sig);
+	    osDelayUntil(t_sig);              // periodo exacto
+#endif
 	  }
 	  /* USER CODE END 5 */
 
@@ -649,7 +667,9 @@ void Task_proceso(void *argument)
   {
 	  uint32_t t0=DWT->CYCCNT;
 	  convertir_mg();
-	  quemar_cpu_us(12000); // Apartado 1.9
+#if (MEDIDA == 4) || (MEDIDA == 5)
+	  quemar_cpu_us(12000); // Reto 1.9: C de Proceso = 12 ms
+#endif
 	  uint32_t c=(DWT->CYCCNT-t0)/168;
 
 	  if (c>c_proceso_max_us) c_proceso_max_us=c;
