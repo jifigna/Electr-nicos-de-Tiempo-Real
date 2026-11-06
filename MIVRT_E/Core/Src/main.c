@@ -35,29 +35,26 @@ typedef enum { Verde, Naranja, Rojo, Fallo } estado_t;
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 // ---- LIS3DSH ----
-#define LIS_READ    0x80   // bit 7 = 1 -> lectura (el LIS3DSH NO usa bit 6 en SPI)
+#define LIS_READ    0x80
 #define WHOAMI_REG  0x0F
-#define WHOAMI_VAL  0x3F   // firma del LIS3DSH
+#define WHOAMI_VAL  0x3F
 #define CTRL_REG4   0x20
 #define CTRL_REG5   0x24
 #define CTRL_REG6   0x25
 #define OUT_X_L     0x28
 
-// ---- Reto 1.13: indice de vibracion ----
-// W = muestras de Sensor que forman una ventana. Sensor muestrea cada 10 ms,
-// asi que W = 10 -> ventana de 100 ms. Ajustar segun el retardo que pida RF-6.
+// Reto 1.13: indice de vibracion
 #define W           10
-#define VON         30.0f  // mg  (ajustar con las medidas del Reto 1.13.2)
-#define VOFF        20.0f  // mg  (VOFF < VON -> histeresis)
+#define VON         30.0f
+#define VOFF        20.0f
 
-// ---- Conmutadores de experimentos previos (Paso E.2: TODOS a 0) ----
+
 #define EJEMPLO_SOBRECARGA  0   // Reto 1.9: Proceso con C = 12 ms
 #define EJEMPLO_CARRERA     0   // Reto 1.12: tarea Carrera + incrementa()
 #define EJEMPLO_FPU         0   // Reto 1.10: comparacion float/double
 
 // ---- Prueba de RF-4 ----
-// 1 = simula que el sensor no responde al arrancar (debe quedar en FALLO: rojo parpadeando).
-// Para la entrega TIENE que estar a 0.
+
 #define PRUEBA_FALLO        0
 /* USER CODE END PD */
 
@@ -109,7 +106,7 @@ const osThreadAttr_t Carrera_attributes = {
   .priority = (osPriority_t) osPriorityLow,
 };
 /* USER CODE BEGIN PV */
-// ---- Sensor / arranque ----
+// Sensor / arranque
 volatile uint8_t who = 0;
 volatile uint8_t r4 = 0, r5 = 0, r6 = 0;
 volatile uint8_t init_err = 1;
@@ -117,28 +114,28 @@ volatile uint8_t raw[6];
 volatile int16_t ax, ay, az;          // ultima muestra publicada por Sensor
 volatile uint32_t seq_sensor = 0;     // numero de secuencia de esa muestra (1.13.3)
 
-// ---- Copia coherente que usa Proceso ----
+
 volatile float ax_mg, ay_mg, az_mg;
 volatile uint32_t seq_proceso = 0;    // secuencia de la muestra que esta usando Proceso
 
-// ---- Tiempos de computo (us) ----
+// Tiempos de computo-
 volatile uint32_t c_sensor_max_us = 0;
 volatile uint32_t c_proceso_max_us = 0;
 volatile uint32_t c_seguridad_max_us = 0;
 volatile uint32_t c_comms_max_us = 0;
 
-// ---- Reto 1.8: periodo y jitter de Sensor ----
+//Reto 1.8: periodo y jitter de Sensor
 volatile uint32_t sensor_periodo_us = 0;
 volatile uint32_t sensor_per_max_us = 0;
 volatile uint32_t sensor_per_min_us = 999999;
 volatile uint32_t sensor_jitter_us = 0;
 
-// ---- Reto 1.9: tiempo de respuesta ----
+// Reto 1.9: tiempo de respuesta
 volatile uint32_t sensor_R_ms = 0;
 volatile uint32_t sensor_R_max_ms = 0;
 volatile uint32_t sensor_perdidos = 0;
 
-// ---- Retos 1.10 / 1.11 ----
+// Retos 1.10 / 1.11
 volatile float pitch_grados, roll_grados;
 volatile float inclinacion = 0.0f;
 volatile estado_t estado = Verde;
@@ -146,15 +143,14 @@ volatile estado_t estado = Verde;
 volatile uint32_t t_float, t_double;
 #endif
 
-// ---- Reto 1.12 ----
+// Reto 1.12
 volatile uint32_t contador = 0;
 volatile uint32_t privado_sensor = 0, privado_carrera = 0;
 
-// ---- Reto 1.13: vibracion ----
+//Reto 1.13: vibracion
 volatile float a_mod = 0.0f;          // |a| de la ultima muestra usada (mg)
 volatile float V = 0.0f;              // indice de vibracion de la ultima ventana cerrada (mg)
-// ---- Estadisticas para caracterizar V (Reto 1.13.2) ----
-// Se reinician con el BOTON AZUL de la placa (B1, PA0).
+
 volatile float V_max = 0.0f;          // V maximo desde el ultimo reinicio (mg)
 volatile float V_min = 1e9f;          // V minimo desde el ultimo reinicio (mg)
 volatile float V_media = 0.0f;        // V medio desde el ultimo reinicio (mg)
@@ -196,7 +192,7 @@ static void cs_low(void)  { HAL_GPIO_WritePin(GPIOE, GPIO_PIN_3, GPIO_PIN_RESET)
 static void cs_high(void) { HAL_GPIO_WritePin(GPIOE, GPIO_PIN_3, GPIO_PIN_SET); }
 
 // Lee 'n' (<= 6) registros consecutivos a partir de 'reg'.
-// El auto-incremento lo da ADD_INC = 1 en CTRL_REG6, NO un bit en el comando.
+
 void lis_read(uint8_t reg, uint8_t *buf, uint16_t n)
 {
     uint8_t tx[7] = {0}, rx[7] = {0};
@@ -213,7 +209,7 @@ void lis_read(uint8_t reg, uint8_t *buf, uint16_t n)
 void lis_write(uint8_t reg, uint8_t val)
 {
     uint8_t tx[2];
-    tx[0] = reg & 0x7F;                         // bit 7 = 0 -> escritura
+    tx[0] = reg & 0x7F;                         // bit 7 = 0  escritura
     tx[1] = val;
 
     cs_low();
@@ -228,9 +224,9 @@ uint8_t lis_init(void)
     lis_read(WHOAMI_REG, &id, 1);               // prueba de vida
     if (id != WHOAMI_VAL) return 1;
 
-    lis_write(CTRL_REG4, 0x6F);                 // ODR 100 Hz, BDU = 1, X/Y/Z
-    lis_write(CTRL_REG5, 0xC0);                 // BW 50 Hz, +-2 g
-    lis_write(CTRL_REG6, 0x10);                 // ADD_INC = 1
+    lis_write(CTRL_REG4, 0x6F);
+    lis_write(CTRL_REG5, 0xC0);
+    lis_write(CTRL_REG6, 0x10);
     return 0;
 }
 
@@ -238,18 +234,18 @@ uint8_t lis_init(void)
 static void leer_sensor(void)
 {
     uint8_t b[6];
-    lis_read(OUT_X_L, b, 6);                    // la transaccion SPI va FUERA de la seccion critica
+    lis_read(OUT_X_L, b, 6);
 
     taskENTER_CRITICAL();
     for (int i = 0; i < 6; i++) raw[i] = b[i];
     ax = (int16_t)((b[1] << 8) | b[0]);
     ay = (int16_t)((b[3] << 8) | b[2]);
     az = (int16_t)((b[5] << 8) | b[4]);
-    seq_sensor++;                               // (1.13.3) numero de secuencia
+    seq_sensor++;                               // (1.13.3)
     taskEXIT_CRITICAL();
 }
 
-// Proceso: copia coherente de los tres ejes + su secuencia (Reto 1.12.3)
+//  Reto 1.12.3
 static void convertir_mg(void)
 {
     taskENTER_CRITICAL();
@@ -299,7 +295,6 @@ static float desviacion(const float *v, uint32_t n)
 }
 
 // Reto 1.13: V = desviacion tipica de |a| en ventanas de W muestras de Sensor.
-// Proceso (20 ms) solo ve 1 de cada 2 muestras de Sensor (10 ms): las cuenta.
 static void calcular_vibracion(void)
 {
     static uint32_t seq_ant = 0;
@@ -316,7 +311,7 @@ static void calcular_vibracion(void)
     seq_ant = s;
     muestras_usadas++;
 
-    // A que ventana pertenece esta muestra: seq 1..W -> 0, W+1..2W -> 1, ...
+    // A que ventana pertenece esta muestra
     uint32_t id = (s - 1) / W;
 
     if (id != id_ventana) {                     // se cierra la ventana anterior
@@ -346,7 +341,7 @@ static void calcular_vibracion(void)
     if (n_ventana < W) ventana[n_ventana++] = a_mod;
 }
 
-// Boton azul (B1): reinicia todas las estadisticas para empezar una medida nueva.
+// Boton azul (B1) reinicia todas las estadisticas para empezar una medida nueva.
 static void reiniciar_medidas(void)
 {
     taskENTER_CRITICAL();
@@ -475,15 +470,14 @@ int main(void)
   DWT->CYCCNT = 0;
   DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
 
-  // Encender SPI1 YA: con CPOL = 1, SCK queda en reposo alto ANTES de bajar CS.
-  // Sin esto la primera transaccion (WHO_AM_I) sale mal y se cae en FALLO.
+
   __HAL_SPI_ENABLE(&hspi1);
-  HAL_Delay(10);                                // arranque del sensor (necesita el tick de TIM6)
+  HAL_Delay(10);
   cs_high();
 
   init_err = lis_init();
 #if PRUEBA_FALLO
-  init_err = 1;                                 // simulacion de sensor ausente (RF-4)
+  init_err = 1;
 #endif
   if (init_err != 0) estado = Fallo;            // RF-4
 

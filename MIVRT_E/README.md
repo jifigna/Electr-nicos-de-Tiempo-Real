@@ -1,1 +1,0 @@
-Este es el repositorio de Electrónicos de Tiempo Real
