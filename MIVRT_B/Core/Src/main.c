@@ -31,9 +31,9 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define LIS_READ 0x80 // bit de lectura en el primer byte
+#define LIS_READ 0x80
 #define WHOAMI_REG 0x0F
-#define WHOAMI_VAL 0x3F // firma del LIS3DSH
+#define WHOAMI_VAL 0x3F
 #define LIS_READ    0x80
 #define WHOAMI_REG  0x0F
 #define CTRL_REG4   0x20
@@ -41,8 +41,8 @@
 #define CTRL_REG6   0x25
 #define OUT_X_L     0x28
 
-#define MARCO_MS     10   // un tic cada 10 ms
-#define N_MARCOS     10   // 100ms (principal) / 10ms (secundario) = 10 marcos
+#define MARCO_MS     10
+#define N_MARCOS     10
 #define ACTIVIDAD_LARGA  1
 /* USER CODE END PD */
 
@@ -69,12 +69,12 @@ volatile int16_t ax, ay, az;
 
 volatile uint32_t overruns = 0;           // veces que un tic llegó tarde
 volatile float ax_mg, ay_mg, az_mg;       // ejes en mg
-volatile uint32_t periodo_us;             // tiempo real entre dos tics (µs)
+volatile uint32_t periodo_us;             // tiempo real entre dos tics (
 volatile uint32_t periodo_max_us = 0;     // el más largo
 volatile uint32_t periodo_min_us = 999999;// el más corto
-volatile uint32_t C_sensor_us;            // lo que tarda leer el sensor (µs)
-volatile uint32_t C_conv_us;              // lo que tarda convertir a mg (µs)
-volatile uint32_t C_led_us;               // lo que tarda el LED (µs)
+volatile uint32_t C_sensor_us;            // lo que tarda leer el sensor
+volatile uint32_t C_conv_us;              // lo que tarda convertir a mg
+volatile uint32_t C_led_us;               // lo que tarda el LED
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -103,7 +103,7 @@ void lis_read(uint8_t reg, uint8_t *buf, uint16_t n)
     cs_high();
 
     for (uint16_t i = 0; i < n; i++)
-        buf[i] = rx[i + 1];                     // rx[0] se descarta (el sensor aún no contestaba)
+        buf[i] = rx[i + 1];
 }
 
 void lis_write(uint8_t reg, uint8_t val)
@@ -122,12 +122,11 @@ uint8_t lis_init(void)
 {
     uint8_t id;
     lis_read(WHOAMI_REG, &id, 1);               // prueba de vida
-    if (id != WHOAMI_VAL) return 1;             // si no es 0x3F → error
+    if (id != WHOAMI_VAL) return 1;
 
-    lis_write(CTRL_REG4, 0x6F);                 // ODR 100 Hz, BDU = 1, X/Y/Z
-    lis_write(CTRL_REG5, 0xC0);                 // ← faltaba: BW 50 Hz, ±2 g, sin self-test, 4 hilos
-    lis_write(CTRL_REG6, 0x10);                 // ADD_INC = 1
-    return 0;
+    lis_write(CTRL_REG4, 0x6F);
+    lis_write(CTRL_REG5, 0xC0);
+    lis_write(CTRL_REG6, 0x10);
 }
 
 
@@ -215,7 +214,7 @@ int main(void)
 
   uint32_t t_marco = HAL_GetTick();   // cuándo toca el próximo tic (ms)
   uint32_t k = 0;                     // en qué tic estamos (0..9)
-  uint32_t t_ant = 0;                 // cuándo empezó el tic anterior (cronómetro)
+  uint32_t t_ant = 0;                 // cuándo empezó el tic anterior
   uint8_t primero = 1;                // el primer tic no tiene "anterior"
 
   /* USER CODE END 2 */
