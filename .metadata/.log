@@ -3178,3 +3178,6 @@ COM5
 !MESSAGE Request for monitor: 'RequestMonitor (org.eclipse.cdt.dsf.mi.service.MIRunControl$9@13b5ea89): Status ERROR: org.eclipse.cdt.dsf.gdb code=10004 Suspend operation timeout.' resulted in an error.
 !SUBENTRY 1 org.eclipse.cdt.dsf.gdb 4 10004 2026-11-06 02:09:04.044
 !MESSAGE Suspend operation timeout.
+
+!ENTRY org.eclipse.cdt.core 1 0 2026-11-06 03:20:51.166
+!MESSAGE Indexed 'MIVRT_E_V2' (38 sources, 153 headers) in 13,8 sec: 17.650 declarations; 90.465 references; 1 unresolved inclusions; 202 syntax errors; 241 unresolved names (0,22 %)

@@ -1,0 +1,10 @@
+03:22:11 **** Incremental Build of configuration Debug for project MIVRT_E_V2 ****
+make -j8 all 
+arm-none-eabi-size  MIVRT_E_V2.elf 
+   text	   data	    bss	    dec	    hex	filename
+  28920	    104	  21016	  50040	   c378	MIVRT_E_V2.elf
+Finished building: default.size.stdout
+ 
+
+03:22:12 Build Finished. 0 errors, 0 warnings. (took 882ms)
+

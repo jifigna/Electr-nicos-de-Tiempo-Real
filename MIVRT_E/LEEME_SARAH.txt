@@ -1,0 +1,193 @@
+=====================================================================
+ SARAH: MEDIDAS DE LA PARTE E (MIVRT_E) - LEEME PRIMERO
+=====================================================================
+
+Hola Sarah! Necesito que tomes unas medidas con TU placa para que yo
+redacte la Parte E del informe. No tienes que escribir nada: solo
+seguir los pasos, hacer las capturas y pasarme la tabla del final.
+Tiempo estimado: 30-40 minutos.
+
+IMPORTANTE: tiene que ser la placa STM32F4DISCOVERY con el chip
+STM32F407VGT6 (el chip grande del centro dice "F407"). Mi placa es una
+F411 y con ella este proyecto NO funciona (por eso te lo pido a ti).
+
+
+---------------------------------------------------------------------
+ 1. PREPARAR EL PROYECTO (5 min)
+---------------------------------------------------------------------
+
+ 1. Haz "git pull" del repositorio.
+
+ 2. En STM32CubeIDE:
+    - Si ya tenias el proyecto MIVRT_E importado: selecciónalo en el
+      Project Explorer y pulsa F5 (Refresh).
+    - Si no: File > Import > General > Existing Projects into
+      Workspace > elige la carpeta MIVRT_E > Finish.
+
+ 3. Project > Clean... > Clean. Después Project > Build Project.
+    Tiene que terminar sin errores.
+
+ 4. NO abras el archivo .ioc ni le des a "Generate Code".
+
+ 5. Clic derecho en el proyecto > Debug As > STM32 C/C++ Application.
+    El depurador se para solo en la primera línea de main() (HAL_Init).
+    Es normal: pulsa F8 (Resume) para que arranque.
+
+ 6. Comprueba que el LED VERDE está encendido con la placa plana.
+
+
+---------------------------------------------------------------------
+ 2. LIVE EXPRESSIONS (pestaña "Live Expressions", arriba a la derecha)
+---------------------------------------------------------------------
+
+Añade estas expresiones (con "Add new expression"):
+
+  who  init_err  r4  r5  r6  estado
+  pitch_grados  roll_grados
+  V  V_max  V_min  V_media  vibracion  ventanas_medidas  ventanas_con_vibracion
+  usadas_ultima_ventana  perdidas_ultima_ventana
+  muestras_usadas  muestras_perdidas  muestras_repetidas
+  c_sensor_max_us  c_proceso_max_us  c_seguridad_max_us  c_comms_max_us
+  sensor_periodo_us  sensor_per_max_us  sensor_per_min_us  sensor_jitter_us
+  sensor_R_max_ms  sensor_perdidos
+  medida_n
+
+Los valores se actualizan solos con el programa en marcha.
+
+>>> REGLAS PARA TODAS LAS MEDIDAS <<<
+  - NO pauses el depurador mientras mides: pausar estropea los tiempos
+    (periodo, jitter, R). Haz las capturas con el programa CORRIENDO.
+  - El BOTON AZUL de la placa (B1, el de usuario, NO el negro de reset)
+    pone a cero todas las estadísticas y suma 1 a "medida_n".
+    Se pulsa al EMPEZAR cada medida.
+  - Si en algún momento pausaste: pulsa el botón azul antes de medir.
+  - Cada captura tiene que verse entera la tabla de Live Expressions.
+    Guárdala con el nombre que pone en cada paso (M1_quieta_1.png ...).
+
+
+---------------------------------------------------------------------
+ 3. LAS MEDIDAS
+---------------------------------------------------------------------
+
+M0 - ARRANQUE (1 captura)
+   Recién arrancado, placa plana, sin tocar nada.
+   Debe salir: who = 63, init_err = 0, r4 = 111, r5 = 192, r6 = 16,
+   estado = Verde.
+   Captura: M0_arranque.png
+
+M1 - PLACA QUIETA = RUIDO DEL SENSOR (3 repeticiones)
+   Placa sobre la mesa. Pulsa el botón azul, retira la mano y NO
+   toques la mesa durante 20 s. Captura.
+   Repite 3 veces.
+   Capturas: M1_quieta_1.png, M1_quieta_2.png, M1_quieta_3.png
+   Apunta: V_max, V_media, V_min y si el LED azul se encendió.
+
+M2 - INCLINAR DESPACIO (3 repeticiones)
+   Pulsa el botón azul. Inclina la placa MUY despacio hasta unos 45°
+   (unos 5 s) y vuelve a dejarla plana igual de despacio. Captura.
+   El LED azul NO debería encenderse (los de colores sí cambian).
+   Capturas: M2_inclinar_1.png, _2, _3
+   Apunta: V_max, V_media, ventanas_con_vibracion y si el LED azul
+   se encendió.
+
+M3 - GOLPES EN LA MESA (3 repeticiones)
+   Placa sobre la mesa. Pulsa el botón azul. Da golpes con el puño en
+   la mesa, a unos 20 cm de la placa, más o menos 1 golpe por segundo,
+   durante 10 s. Intenta que todos los golpes sean parecidos. Captura.
+   Capturas: M3_golpes_1.png, _2, _3
+   Apunta: V_max, V_media, ventanas_con_vibracion y si el LED azul
+   se encendió con los golpes.
+
+M4 - AGITAR CON LA MANO (3 repeticiones)
+   Coge la placa (con cuidado con el cable). Pulsa el botón azul y
+   agítala de lado a lado de forma continua durante 5 s. Déjala en la
+   mesa y captura.
+   Capturas: M4_agitar_1.png, _2, _3
+   Apunta: V_max, V_media, ventanas_con_vibracion y si el LED azul
+   se encendió.
+
+M5 - MUESTRAS Y TIEMPOS DE COMPUTO (1 captura)
+   Placa quieta. Pulsa el botón azul y espera 60 s sin tocar nada
+   (y sin pausar). Captura.
+   Captura: M5_tiempos.png
+   Apunta: usadas_ultima_ventana, perdidas_ultima_ventana,
+   muestras_usadas, muestras_perdidas, c_sensor_max_us,
+   c_proceso_max_us, c_seguridad_max_us, c_comms_max_us,
+   sensor_per_max_us, sensor_per_min_us, sensor_jitter_us,
+   sensor_R_max_ms, sensor_perdidos.
+   (Esperado: usadas_ultima_ventana = 5 y perdidas_ultima_ventana = 5.)
+
+M6 - LEDS Y ANGULOS (3 capturas + fotos si puedes)
+   a) Placa plana: LED verde. Captura M6_plana.png
+   b) Inclinada unos 20° (pitch o roll): LED naranja. Captura M6_20grados.png
+   c) Inclinada unos 35°: LED rojo. Captura M6_35grados.png
+   Si puedes, haz una foto con el móvil en cada caso (que se vea el LED).
+   Apunta pitch_grados, roll_grados y estado en cada caso.
+
+M7 - FALLO DEL SENSOR AL ARRANCAR, RF-4 (1 captura + 1 foto/video)
+   1. Para el depurador (cuadrado rojo).
+   2. Abre Core/Src/main.c y busca:
+          #define PRUEBA_FALLO        0
+      Cámbialo a 1. Guarda (Ctrl+S).
+   3. Debug As > STM32 C/C++ Application (se recompila solo) > F8.
+   4. Debe verse el LED ROJO PARPADEANDO, init_err = 1 y estado = Fallo.
+      Captura M7_fallo.png y una foto o video corto del LED.
+   5. MUY IMPORTANTE: vuelve a poner  #define PRUEBA_FALLO        0
+      y guarda. Esa línea tiene que quedar a 0 para la entrega.
+
+
+---------------------------------------------------------------------
+ 4. QUE ME TIENES QUE PASAR
+---------------------------------------------------------------------
+
+ - Todas las capturas (M0 ... M7) en una carpeta.
+ - Las fotos o videos de los LEDs (M6 y M7).
+ - Esta tabla rellenada (puedes copiarla en el mensaje):
+
+ Medida          | V_max | V_media | V_min | ventanas_con_vib | ¿LED azul?
+ ----------------+-------+---------+-------+------------------+-----------
+ M1 quieta 1     |       |         |       |                  |
+ M1 quieta 2     |       |         |       |                  |
+ M1 quieta 3     |       |         |       |                  |
+ M2 inclinar 1   |       |         |       |                  |
+ M2 inclinar 2   |       |         |       |                  |
+ M2 inclinar 3   |       |         |       |                  |
+ M3 golpes 1     |       |         |       |                  |
+ M3 golpes 2     |       |         |       |                  |
+ M3 golpes 3     |       |         |       |                  |
+ M4 agitar 1     |       |         |       |                  |
+ M4 agitar 2     |       |         |       |                  |
+ M4 agitar 3     |       |         |       |                  |
+
+ M5:  usadas_ultima_ventana = ___   perdidas_ultima_ventana = ___
+      muestras_usadas = ___   muestras_perdidas = ___
+      c_sensor_max_us = ___   c_proceso_max_us = ___
+      c_seguridad_max_us = ___   c_comms_max_us = ___
+      sensor_per_max_us = ___   sensor_per_min_us = ___
+      sensor_jitter_us = ___   sensor_R_max_ms = ___   sensor_perdidos = ___
+
+ M6:  plana:   pitch ___  roll ___  estado ___
+      ~20°:    pitch ___  roll ___  estado ___
+      ~35°:    pitch ___  roll ___  estado ___
+
+ M7:  ¿rojo parpadeando?  SI / NO      init_err = ___
+
+
+---------------------------------------------------------------------
+ 5. SI ALGO FALLA
+---------------------------------------------------------------------
+
+ - Los breakpoints salen tachados o el depurador "pasa de largo":
+   está activado "Skip All Breakpoints". Pulsa Ctrl+Alt+B.
+
+ - who = 0 o init_err = 1 (sin haber tocado PRUEBA_FALLO): desenchufa
+   el USB 10 s, vuelve a enchufarlo y repite el paso 5 del apartado 1.
+
+ - Se queda en Error_Handler, HardFault_Handler o BusFault_Handler
+   (lo ves pulsando Pausa, en la ventana Debug): mira el chip de la
+   placa. Si no pone F407, es otra placa y no sirve. Avísame.
+
+ - El LED azul se enciende con la placa quieta: no pasa nada, apúntalo
+   igual. Es justo lo que necesito saber para elegir los umbrales.
+
+Gracias!!  - Juan
