@@ -56,6 +56,8 @@ typedef enum { Verde, Naranja, Rojo, Fallo } estado_t;
 // ---- Prueba de RF-4 ----
 
 #define PRUEBA_FALLO        0
+
+#define EXPERIMENTO_INVERSION 0
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -1005,23 +1007,24 @@ void Task_carrera(void *argument)
 * @retval None
 */
 /* USER CODE END Header_Task_diagnostico */
+
 void Task_diagnostico(void *argument)
 {
   /* USER CODE BEGIN Task_diagnostico */
   /* Infinite loop */
+  uint32_t t_sig = osKernelGetTickCount();
   for(;;)
   {
-	 error=0;
 	uint8_t id = 0;
 	lis_read_safe(WHOAMI_REG, &id, 1);
-	if (id != firma_esperada) error=1;
+	if (id != firma_esperada)
+		error=1;
 
-	    lis_write(CTRL_REG4, 0x6F);
-	    lis_write(CTRL_REG5, 0xC0);
-	    lis_write(CTRL_REG6, 0x10);
-	    osDelayUntil(50);
-	    error=0;
+		estado=Fallo;
   }
+  t_sig+=50;
+  OsDelayUntil(t_sig);
+
   /* USER CODE END Task_diagnostico */
 }
 
