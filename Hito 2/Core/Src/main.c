@@ -113,22 +113,23 @@ const osThreadAttr_t Diagnostico_attributes = {
   .priority = (osPriority_t) osPriorityLow,
 };
 
-osMutexId_t spi_mtx;
-const osMutexAttr_t spi_mtx_attr = {
-"spiMutex",
-osMutexPrioInherit, // <- activa la herencia de prioridad
-NULL, 0U
-};
 
 /* USER CODE BEGIN PV */
 // Sensor / arranque
+volatile uint8_t error=0;
 volatile uint8_t who = 0;
 volatile uint8_t r4 = 0, r5 = 0, r6 = 0;
 volatile uint8_t init_err = 1;
 volatile uint8_t raw[6];
 volatile int16_t ax, ay, az;          // ultima muestra publicada por Sensor
 volatile uint32_t seq_sensor = 0;     // numero de secuencia de esa muestra (1.13.3)
+osMutexId_t spi_mtx;
 
+const osMutexAttr_t spi_mtx_attr = {
+"spiMutex",
+osMutexPrioInherit, // <- activa la herencia de prioridad
+NULL, 0U
+};
 
 volatile float ax_mg, ay_mg, az_mg;
 volatile uint32_t seq_proceso = 0;    // secuencia de la muestra que esta usando Proceso
@@ -183,6 +184,8 @@ volatile uint32_t perdidas_ultima_ventana = 0;  // W - usadas
 volatile uint32_t muestras_usadas = 0;          // totales
 volatile uint32_t muestras_perdidas = 0;        // totales (saltos de secuencia)
 volatile uint32_t muestras_repetidas = 0;       // Proceso vio la misma secuencia dos veces
+
+volatile uint8_t firma_esperada=WHOAMI_VAL;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -237,14 +240,17 @@ void lis_write(uint8_t reg, uint8_t val)
 
 void lis_read_safe(uint8_t reg, uint8_t *buf, uint16_t n)
 {
-	 osMutexAcquire(mutex_id, osWaitForever); // try to acquire mutex
-
-	  osMutexRelease(mutex_id);
+	 osMutexAcquire(spi_mtx, osWaitForever); // Cojo el mutex
+	 lis_read(reg, buf, n);
+	 osMutexRelease(spi_mtx);				//suelto el mutex
 
 }
 
-void lis_write_safe(uint8_t reg, uint8_t *buf, uint16_t n)
+void lis_write_safe(uint8_t reg, uint8_t val)
 {
+	 osMutexAcquire(spi_mtx, osWaitForever); // Cojo el mutex
+     lis_write( reg,  val);
+     osMutexRelease(spi_mtx);				//suelto el mutex
 
 }
 
@@ -265,7 +271,7 @@ uint8_t lis_init(void)
 static void leer_sensor(void)
 {
     uint8_t b[6];
-    lis_read(OUT_X_L, b, 6);
+    lis_read_safe(OUT_X_L, b, 6);
 
     taskENTER_CRITICAL();
     for (int i = 0; i < 6; i++) raw[i] = b[i];
@@ -522,7 +528,7 @@ int main(void)
   osKernelInitialize();
 
   /* USER CODE BEGIN RTOS_MUTEX */
-  /* add mutexes, ... */
+  spi_mtx = osMutexNew(&spi_mtx_attr);
   /* USER CODE END RTOS_MUTEX */
 
   /* USER CODE BEGIN RTOS_SEMAPHORES */
@@ -1005,7 +1011,16 @@ void Task_diagnostico(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+	 error=0;
+	uint8_t id = 0;
+	lis_read_safe(WHOAMI_REG, &id, 1);
+	if (id != firma_esperada) error=1;
+
+	    lis_write(CTRL_REG4, 0x6F);
+	    lis_write(CTRL_REG5, 0xC0);
+	    lis_write(CTRL_REG6, 0x10);
+	    osDelayUntil(50);
+	    error=0;
   }
   /* USER CODE END Task_diagnostico */
 }
